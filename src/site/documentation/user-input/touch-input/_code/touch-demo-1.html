@@ -168,6 +168,18 @@
                 };
       })();
 
+      window.pointerEnabled = window.navigator.pointerEnabled || window.navigator.msPointerEnabled;
+
+      var pointerDownName = 'MSPointerDown';
+      var pointerUpName = 'MSPointerUp';
+      var pointerMoveName = 'MSPointerMove';
+
+      if(window.navigator.pointerEnabled) {
+        pointerDownName = 'pointerdown';
+        pointerUpName = 'pointerup';
+        pointerMoveName = 'pointermove';
+      }
+
       function SwipeRevealItem(element) {
         // Gloabl state variables
         var STATE_DEFAULT = 1;
@@ -206,8 +218,8 @@
           // Add the move and end listeners
           if (window.navigator.msPointerEnabled) {
             // Pointer events are supported.
-            document.addEventListener('MSPointerMove', this.handleGestureMove, true);
-            document.addEventListener('MSPointerUp', this.handleGestureEnd, true);
+            document.addEventListener(pointerMoveName, this.handleGestureMove, true);
+            document.addEventListener(pointerUpName, this.handleGestureEnd, true);
           } else {
             // Add Touch Listeners
             document.addEventListener('touchmove', this.handleGestureMove, true);
@@ -256,8 +268,8 @@
           // Remove Event Listeners
           if (window.navigator.msPointerEnabled) {
             // Remove Pointer Event Listeners
-            document.removeEventListener('MSPointerMove', this.handleGestureMove, true);
-            document.removeEventListener('MSPointerUp', this.handleGestureEnd, true);
+            document.removeEventListener(pointerMoveName, this.handleGestureMove, true);
+            document.removeEventListener(pointerUpName, this.handleGestureEnd, true);
           } else {
             // Remove Touch Listeners
             document.removeEventListener('touchmove', this.handleGestureMove, true);
@@ -363,7 +375,7 @@
         // Check if pointer events are supported.
         if (window.navigator.msPointerEnabled) {
           // Add Pointer Event Listener
-          swipeFrontElement.addEventListener('MSPointerDown', this.handleGestureStart, true);
+          swipeFrontElement.addEventListener(pointerDownName, this.handleGestureStart, true);
         } else {
           // Add Touch Listener
           swipeFrontElement.addEventListener('touchstart', this.handleGestureStart, true);
